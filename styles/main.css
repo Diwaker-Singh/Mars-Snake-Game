@@ -1,0 +1,155 @@
+body { 
+	position: relative;
+    padding-top: 80px; 
+    height: 100%;
+    /*background-color: #cfeba2;*/
+	background-image: url('https://cdn.theatlantic.com/thumbor/fqTaLn3MA4xYmgHKHZVSRO0Wnc8=/900x569/media/img/photo/2018/01/2000-days-on-mars-with-the-curiosit/m22_PIA17944/original.jpg');
+	background-repeat: no-repeat;
+	background-attachment: fixed; 
+	background-size: 100% 100%;
+}
+
+td {
+    border: 1px solid #f7e994;
+    width: 20px;
+    height: 20px;
+    background-color: #f7e994;
+}
+
+footer{
+	float:bottom;
+	margin-top: 50px;
+	background-color: #c7964c;
+}
+
+#footerp{
+	position: absolute;
+	left:37%;
+}
+
+#heading{
+	text-decoration: underline;
+	position: absolute;
+	left: 43%;
+	padding-top: 10px;
+}
+
+.key {
+	border: 1px solid #f7e994;
+    background-color: #f7e994;
+	width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+ul {
+	list-style-type: none;
+}
+
+.btn-space {
+	margin-right: 5px;
+}
+
+#update {
+	margin-bottom: 15px; 
+	margin-top: 10px;
+}
+
+.egg {
+	transition : background-color 0.1s ease-in-out;
+	background-image: url('https://i.pinimg.com/originals/5b/3f/02/5b3f023d9ba7cf502fdff442096ec129.png');
+	background-size: 100% 100%;
+}
+
+.none {
+	transition : background-color 0.1s ease-in-out;
+	background-color: white;
+	border-color: #79d9ce;
+}
+
+.searching {
+	transition : background-color 0.08s ease-in-out;
+	background-color: #000000;
+	border-color: #000000;
+	/*
+	transition : background-color 0.1s ease-in-out;
+	background-image: url('https://www.vhv.rs/dpng/d/465-4659574_sine-wave-coloring-page-sine-wave-png-transparent.png');
+	background-size: 100% 100%;*/
+}
+
+.visited {
+	transition : background-color 0.08s ease-in-out;
+	background-color: #e89440;
+	border-color: #e89440;
+}
+
+.success {
+	transition : background-color 0.08s ease-in-out;
+	background-color: #6fed26;
+	border-color: #6fed26;
+	-webkit-animation: cssAnimation 0.35s; 
+	animation-iteration-count: 10000;
+}
+
+@-webkit-keyframes cssAnimation {
+	0%{opacity: 1;}
+	99%{opacity: 1;}
+    100% {
+		background-image: url('https://i.ya-webdesign.com/images/vector-ufo-12.png');
+		background-size: 100% 100%;
+	}
+}
+
+.start {
+	background-image: url('https://i.ya-webdesign.com/images/vector-ufo-12.png');
+	background-size: 100% 100%;
+	/*background-color: green;
+	border-color: green;*/
+}
+
+.end {
+	background-color: red;
+	border-color: red;
+}
+
+.custom-section {
+	margin-bottom: 20px;
+}
+
+.dropdown:hover .dropdown-menu {
+	display: block;
+}
+#bigTableContainer {
+	margin-top: 30px;
+}
+
+#modalTitleContainer {
+	padding-top: 10px;
+}
+
+#results {
+	height: 87px;
+	width: 120px;
+	background-color: #ffc107;
+	position: fixed;
+	right: 10px;
+	bottom: 10px;
+	color: white;
+	font-size: 12px;
+	text-align: center;
+	border: 1px dashed black;
+}
+
+#resultsIcon {
+	margin-bottom: 3px;
+	margin-top: 7px;
+	font-size: 16px;
+}
+
+#duration, #length {
+	padding: 3px;
+}
+
+.fun-fact {
+	color: darkgreen;
+}
