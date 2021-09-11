@@ -35,16 +35,16 @@ class Deque {
         return this.back && this.back.value;
     }
     get(){
-    	let snake2 = new Deque;
-    	let snake_val = "";
-    	snake_val +=snake.length()+" -> ";
-    	while(this.length()){
-    		let temp=this.pop_front();
-    		snake2.push_back(temp);
-    		snake_val +="("+temp[0]+","+temp[1]+") ";
-    	}
-    	console.log(snake_val);
-    	return snake2;
+        let snake2 = new Deque;
+        let snake_val = "";
+        snake_val +=snake.length()+" -> ";
+        while(this.length()){
+            let temp=this.pop_front();
+            snake2.push_back(temp);
+            snake_val +="("+temp[0]+","+temp[1]+") ";
+        }
+        console.log(snake_val);
+        return snake2;
     }
     length(){
     	return this.size;
@@ -54,15 +54,39 @@ class Deque {
 var totalRows = 30;
 var totalCols = 50;
 var cellsToAnimate = [];
+var total_score = 0;
+running = true;
 
 var snake = new Deque;
-snake.push_front([11,29]);
-snake.push_front([11,28]);
-cellsToAnimate.push([[11,28],"searching"]);
-cellsToAnimate.push([[11,29],"searching"]);
 var operation = [0,-1];
 var egg = [];
 document.onkeydown = checkKey;
+
+
+function updateResults(duration, pathFound, status){
+    var firstAnimation = "swashOut";
+    var secondAnimation = "swashIn";
+    $("#results").removeClass();
+    if(!pathFound){
+        setTimeout(function(){ 
+            $("#resultsIcon").removeClass();
+            $('#results').css("background-color", "#ff6961");
+            $("#resultsIcon").addClass("fas fa-times");
+            $("#duration").text("Total Score: " + duration + " Points");
+        },0);
+    }
+    else{
+        $("#results").addClass("magictime " + firstAnimation); 
+        setTimeout(function(){ 
+            $("#resultsIcon").removeClass();
+            $('#results').css("background-color", "#77dd77");
+            $("#resultsIcon").addClass("fas fa-check");
+            $("#duration").text(status + "Total Score: " + duration + " Points");
+            $('#results').removeClass(firstAnimation);
+            $('#results').addClass(secondAnimation); 
+        },0);
+    }
+}
 
 function generateGrid( rows, cols ) {
     var grid = "<table>";
@@ -82,21 +106,17 @@ $( "#maze" ).append(generateGrid());
 async function checkKey(e) {
     e = e || window.event;
 
-    if (e.keyCode == '38') {
+    if (e.keyCode == '38' && operation[0]==0) {
         operation = [-1,0];
-        console.log("up key pressed");
     }
-    else if (e.keyCode == '40') {
+    else if (e.keyCode == '40' && operation[0]==0) {
         operation = [1,0];
-        console.log("down key pressed");
     }
-    else if (e.keyCode == '37') {
+    else if (e.keyCode == '37' && operation[1]==0) {
         operation = [0,-1];
-        console.log("left key pressed");
     }
-    else if (e.keyCode == '39') {
+    else if (e.keyCode == '39' && operation[1]==0) {
         operation = [0,1];
-        console.log("right key pressed");
     }
 }
 
@@ -105,14 +125,28 @@ function placeEgg(){
 	cellsToAnimate.push([[egg[0],egg[1]],"egg"]);
 }
 
-function chk() {
+function chk_egg() {
 	let head = snake.get_front();
 	if(head[0]==egg[0] && head[1]==egg[1]){
-		console.log("chk - true");
 		grow_snake();
 		cellsToAnimate.push([[egg[0],egg[1]],""]);
 		placeEgg();
 	}
+}
+
+function chk_end(){
+    let snake2 = new Deque;
+    let head = snake.pop_front();
+    let flag=1;
+    snake2.push_back(head);
+    while(snake.length()){
+        let temp=snake.pop_front();
+        snake2.push_back(temp);
+        if(temp[0]==head[0] && temp[1]==head[1])
+            end_game(total_score,1,"!!! Game Over !!!    "),flag=0;
+    }
+    if(flag)
+        snake = snake2;
 }
 
 function grow_snake(){
@@ -128,25 +162,49 @@ function move(){
     let tail = snake.pop_back();
     var new_head = [];
     cellsToAnimate.push([[tail[0],tail[1]],""]);
+    if(snake.length())
+        cellsToAnimate.push([[head[0],head[1]],"searching"]);
     new_head[0]=(head[0]+operation[0]+totalRows)%totalRows;
     new_head[1]=(head[1]+operation[1]+totalCols)%totalCols;
     snake.push_front(new_head);
-    cellsToAnimate.push([[head[0], head[1]], "searching"]);
+    cellsToAnimate.push([[new_head[0], new_head[1]], "visited"]);
 }
 
 async function run(){
-	while(1){
+	while(++total_score && running){
+        updateResults(total_score,0,"");
+		chk_egg();
 		move();
-		chk();
+        chk_end();
 		await animateCells();
 		await new Promise(resolve => setTimeout(resolve,200));
 	}
 }
 
 $( "#startBtn" ).click(function(){
+    running = true;
+    total_score = 0;
+    snake.push_front([15,25]);
+    cellsToAnimate.push([[15,25],"searching"]);
 	placeEgg();
 	run();
 });
+
+$( "#endGame" ).click(function(){
+    end_game(total_score,1,"Game Terminated  ");
+});
+
+function end_game(score,isfinished,status){
+    updateResults(score,isfinished,status);
+    for(i=0;i<totalRows;i++)
+        for(j=0;j<totalCols;j++)
+            cellsToAnimate.push([[i,j],""]);
+
+    snake = new Deque;
+    running = false;
+    egg = [];
+    animateCells();
+}
 
 async function animateCells(){
 	animationState = null;

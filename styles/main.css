@@ -79,8 +79,8 @@ ul {
 
 .visited {
 	transition : background-color 0.08s ease-in-out;
-	background-color: #e89440;
-	border-color: #e89440;
+	background-color: #FF0000;
+	border-color: #000000;
 }
 
 .success {
