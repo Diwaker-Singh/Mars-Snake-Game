@@ -130,6 +130,7 @@ function chk_egg() {
 	if(head[0]==egg[0] && head[1]==egg[1]){
 		grow_snake();
 		cellsToAnimate.push([[egg[0],egg[1]],""]);
+        total_score++;
 		placeEgg();
 	}
 }
@@ -171,17 +172,20 @@ function move(){
 }
 
 async function run(){
-	while(++total_score && running){
+    let i=0;
+	while(++i && running){
         updateResults(total_score,0,"");
 		chk_egg();
 		move();
         chk_end();
 		await animateCells();
-		await new Promise(resolve => setTimeout(resolve,200));
+	    await new Promise(resolve => setTimeout(resolve,200));
 	}
 }
 
-$( "#startBtn" ).click(function(){
+$( "#startBtn" ).click(async function(){
+    end_game(total_score,1,"Starting Game !! ");
+    await new Promise(resolve => setTimeout(resolve,2000));
     running = true;
     total_score = 0;
     snake.push_front([15,25]);
@@ -194,7 +198,7 @@ $( "#endGame" ).click(function(){
     end_game(total_score,1,"Game Terminated  ");
 });
 
-function end_game(score,isfinished,status){
+async function end_game(score,isfinished,status){
     updateResults(score,isfinished,status);
     for(i=0;i<totalRows;i++)
         for(j=0;j<totalCols;j++)
@@ -204,6 +208,7 @@ function end_game(score,isfinished,status){
     running = false;
     egg = [];
     animateCells();
+    console.log("End Game");
 }
 
 async function animateCells(){
