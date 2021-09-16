@@ -71,7 +71,7 @@ function updateResults(duration, pathFound, status){
         setTimeout(function(){ 
             $("#resultsIcon").removeClass();
             $('#results').css("background-color", "#ff6961");
-            $("#resultsIcon").addClass("fas fa-times");
+            $("#resultsIcon").addClass("fas fa-running");
             $("#duration").text("Total Score: " + duration + " Points");
         },0);
     }
@@ -118,6 +118,7 @@ async function checkKey(e) {
     else if (e.keyCode == '39' && operation[1]==0) {
         operation = [0,1];
     }
+    await new Promise(resolve => setTimeout(resolve,200));
 }
 
 function placeEgg(){

@@ -120,7 +120,8 @@ ul {
 	display: block;
 }
 #bigTableContainer {
-	margin-top: 30px;
+	margin-top: 0px;
+	margin-bottom: 0px;
 }
 
 #modalTitleContainer {
@@ -133,7 +134,7 @@ ul {
 	background-color: #ffc107;
 	position: fixed;
 	right: 10px;
-	bottom: 10px;
+	top: 10px;
 	color: white;
 	font-size: 12px;
 	text-align: center;
