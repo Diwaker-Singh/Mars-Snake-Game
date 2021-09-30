@@ -51,8 +51,8 @@ class Deque {
     }
 }
 
-var totalRows = 30;
-var totalCols = 50;
+var totalRows = 25;
+var totalCols = 40;
 var cellsToAnimate = [];
 var total_score = 0;
 running = true;
@@ -145,10 +145,12 @@ function chk_end(){
         let temp=snake.pop_front();
         snake2.push_back(temp);
         if(temp[0]==head[0] && temp[1]==head[1])
-            end_game(total_score,1,"!!! Game Over !!!    "),flag=0;
+            flag=0,running=0;
     }
     if(flag)
         snake = snake2;
+    else
+        updateResults(total_score,1,"Game Terminated  ");
 }
 
 function grow_snake(){
@@ -173,8 +175,7 @@ function move(){
 }
 
 async function run(){
-    let i=0;
-	while(++i && running){
+	while(running){
         updateResults(total_score,0,"");
 		chk_egg();
 		move();
@@ -185,12 +186,13 @@ async function run(){
 }
 
 $( "#startBtn" ).click(async function(){
-    end_game(total_score,1,"Starting Game !! ");
+    end_game(0,1,"Starting Game !! ");
     await new Promise(resolve => setTimeout(resolve,2000));
     running = true;
     total_score = 0;
-    snake.push_front([15,25]);
-    cellsToAnimate.push([[15,25],"searching"]);
+    operation = [0,0];
+    snake.push_front([13,20]);
+    cellsToAnimate.push([[13,20],"searching"]);
 	placeEgg();
 	run();
 });
